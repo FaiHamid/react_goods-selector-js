@@ -17,48 +17,49 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [good, setGood] = useState('Jam');
-  const titleGoods = good !== '' ? `${good} is selected` : 'No goods selected';
+  const [selectedGood, setSelectedGood] = useState('Jam');
 
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
-        {titleGoods}
-        {good !== '' && (
+        {selectedGood ? `${selectedGood} is selected` : 'No goods selected'}
+        {selectedGood && (
           <button
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setGood('')}
+            onClick={() => setSelectedGood('')}
           />
         )}
       </h1>
 
       <table className="table">
         <tbody>
-          {goods.map(product => (
+          {goods.map(good => (
             <tr
-              key={product}
+              key={good}
               data-cy="Good"
               className={cn({
-                'has-background-success-light': product === good,
+                'has-background-success-light': good === selectedGood,
               })}
             >
               <td>
                 <button
-                  data-cy={product === good ? 'RemoveButton' : 'AddButton'}
+                  data-cy={good === selectedGood ? 'RemoveButton' : 'AddButton'}
                   type="button"
-                  className={cn('button', { 'is-info': product === good })}
+                  className={cn('button', { 'is-info': good === selectedGood })}
                   onClick={() =>
-                    product === good ? setGood('') : setGood(product)
+                    good === selectedGood
+                      ? setSelectedGood('')
+                      : setSelectedGood(good)
                   }
                 >
-                  {product === good ? '-' : '+'}
+                  {good === selectedGood ? '-' : '+'}
                 </button>
               </td>
 
               <td data-cy="GoodTitle" className="is-vcentered">
-                {product}
+                {good}
               </td>
             </tr>
           ))}
